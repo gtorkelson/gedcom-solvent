@@ -1,0 +1,45 @@
+{
+    "content_scripts": [
+        {
+            "matches": [
+                "http://*/*", 
+                "https://*/*"
+            ], 
+            "all_frames": true, 
+            "run_at": "document_start", 
+            "js": [
+                "includes/content.js"
+            ]
+        }
+    ], 
+    "name": "Gedcom Solvent", 
+    "icons": {
+        "128": "icons/icon128.png", 
+        "48": "icons/icon48.png", 
+        "16": "icons/button.png"
+    }, 
+    "web_accessible_resources": [
+        "res/*", 
+        "assets/*", 
+        "icons/*"
+    ], 
+    "description": "Extract GEDCOM files from select web sites.", 
+    "background": {
+        "page": "background.html"
+    }, 
+    "homepage_url": "http://github.com/gtorkelson/gedcom-solvent/", 
+    "version": "0.9.0", 
+    "manifest_version": 2, 
+    "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'", 
+    "browser_action": {
+        "default_icon": "icons/button.png", 
+        "default_title": "Gedcom Solvent"
+    }, 
+    "permissions": [
+        "tabs", 
+        "http://*/*", 
+        "https://*/*", 
+        "contextMenus", 
+        "webNavigation"
+    ]
+}

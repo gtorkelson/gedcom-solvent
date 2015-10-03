@@ -1,0 +1,16 @@
+{
+    "description": "Extract GEDCOM files from select web sites.",
+    "creator": "Gene Torkelson",
+    "content_scripts": [
+      "gedmatch.js",
+      "ftdna.js"
+    ],
+    "homepage_url": "http://github.com/gtorkelson/gedcom-solvent/",
+    "version": "0.9.0",
+    "browser_button": {
+        "caption": "Gedcom Solvent",
+        "icon": "icons/button.png",
+        "tooltipText": "Gedcom Solvent"
+    },
+    "name": "Gedcom Solvent"
+}
