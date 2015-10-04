@@ -120,6 +120,8 @@ ftdnaSolvent.solve = function () {
         .children().eq(0).children().eq(1).children();
     if (detailChildren.length) {
       var person = Person.create();
+      person.uid = memberElement.attr('data-id');
+
       person.sex = memberElement.hasClass('male') ? 'M' : 'F';
       person.firstMiddle = detailChildren.eq(0).text().trim();
       person.last = detailChildren.eq(1).text().trim();

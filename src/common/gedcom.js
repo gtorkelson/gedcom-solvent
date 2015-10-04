@@ -29,8 +29,8 @@ var Person = Object.create(
       }
       return val;
     },
-    asGedcom: function (child) {
-      var s = '0 @I' + this.aid + '@ INDI\n';
+    asGedcom: function () {
+      var s = '0 @I' + this.uid + '@ INDI\n';
       s += '1 NAME ';
       var parts = [];
       if (this.firstMiddle) {
@@ -64,9 +64,13 @@ var Person = Object.create(
           s += '2 PLAC ' + this.death.place + '\n';
         }
       }
-      s += '1 FAMC @F' + this.aid + '@\n';
-      if (child) {
-        s += '1 FAMS @F' + child.aid + '@\n';
+      if (this.famc) {
+        s += '1 FAMC @F' + this.famc + '@\n';
+      }
+      if (this.parentIn) {
+        this.parentIn.forEach(function (fid) {
+          s += '1 FAMS @F' + fid + '@\n';
+        });
       }
 
       return s;
@@ -125,44 +129,143 @@ var Gedcom = Object.create(
       return nameParts.join(' ');
     },
     export: function () {
-      var report = function (s, person, child) {
-        s.s += person.asGedcom(child);
-        person.parents.forEach(function (parent) {
-          report(s, parent, person);
-        });
-        if (person.parents.length) {
-          s.s += '0 @F' + person.aid + '@ FAM\n';
-          var pIndex = 0;
-          if (
-            person.parents.length === 2 &&
-            person.parents[0].sex === person.parents[1].sex
-          ) {
-            // some software does not accept same-sex marriages, and so
-            // grudgingly we will call the first spouse the husband and the
-            // second the wife in these case (lame)
-            var parent = person.parents[0];
-            s.s += '1 ' + 'HUSB' +
-                ' @I' + parent.aid + '@\n';
-            parent = person.parents[1];
-            s.s += '1 ' + 'WIFE' +
-                ' @I' + parent.aid + '@\n';
+      // var report = function (s, person, child) {
+      //   if (!people[person.uid]) {
+      //     s.s += person.asGedcom(child);
+      //     person.parents.forEach(function (parent) {
+      //       report(s, parent, person);
+      //     });
+      //     if (person.parents.length) {
+      //       s.s += '0 @F' + person.uid + '@ FAM\n';
+      //       var pIndex = 0;
+      //       if (
+      //         person.parents.length === 2 &&
+      //         person.parents[0].sex === person.parents[1].sex
+      //       ) {
+      //         // some software does not accept same-sex marriages, and so
+      //         // grudgingly we will call the first spouse the husband and the
+      //         // second the wife in these case (lame)
+      //         var parent = person.parents[0];
+      //         s.s += '1 ' + 'HUSB' +
+      //             ' @I' + parent.uid + '@\n';
+      //         parent = person.parents[1];
+      //         s.s += '1 ' + 'WIFE' +
+      //             ' @I' + parent.uid + '@\n';
+      //       }
+      //       else {
+      //         person.parents.forEach(function (parent) {
+      //           s.s += '1 ' + (parent.sex === 'M' ? 'HUSB' : 'WIFE') +
+      //               ' @I' + parent.uid + '@\n';
+      //         });
+      //       }
+      //       s.s += '1 CHIL @I' + person.uid + '@\n';
+      //     }
+      //
+      //   }
+      // };
+
+      var getFamilyId = function (child) {
+        var fid;
+        if (child.parents) {
+          if (child.parents[0]) {
+            fid = child.parents[0].uid;
           }
-          else {
-            person.parents.forEach(function (parent) {
-              s.s += '1 ' + (parent.sex === 'M' ? 'HUSB' : 'WIFE') +
-                  ' @I' + parent.aid + '@\n';
-            });
+          if (child.parents[1]) {
+            fid += '_' + child.parents[1].uid;
           }
-          s.s += '1 CHIL @I' + person.aid + '@\n';
+        }
+        return fid;
+      };
+
+      var buildFamily = function (child, families, people) {
+        var family;
+        var fid;
+        // if the child is already in people then nothing to do
+        if (!people[child.uid]) {
+          people[child.uid] = child;
+          fid = getFamilyId(child);
+          // if there are no parents then we've done all we need to do.
+          // otherwise:
+          if (fid) {
+            child.famc = fid;
+            family = families[fid];
+            if (family) {
+              // if the family is already in families then add as child
+              family.children.push(child);
+            }
+            else {
+              family = {};
+              family.parents = child.parents;
+              family.uid = fid;
+              family.children = [child];
+              families[fid] = family;
+              family.parents.forEach(function (parent) {
+                if (parent.parentIn) {
+                  parent.parentIn.push(fid);
+                  // we have no need to build this parent's family b/c
+                  // we must already have seen this obj
+                }
+                else {
+                  parent.parentIn = [fid];
+                  // recurse here
+                  buildFamily(parent, families, people);
+                }
+              });
+            }
+          }
         }
       };
+
+      var families = {};
+      var people = {};
+      buildFamily(this.proband, families, people);
+      // now we can loop over people, then famlies (after appending header
+      // stuff);
 
       var s = { };
       s.s = '0 HEAD\n1 SOUR ' + this.source + '\n';
       s.s += '1 SUBM @SUBM@\n1 GEDC\n2 VERS 5.5\n2 FORM LINEAGE-LINKED\n';
       s.s += '0 @SUBM@ SUBM\n1 NAME ' + this.nameToString(this.proband) + '\n';
 
-      report(s, this.proband, null);
+      Object.keys(people).forEach(function (key) {
+        var person = people[key];
+        s.s += person.asGedcom();
+      });
+
+      Object.keys(families).forEach(function (key) {
+        var fam = families[key];
+        s.s += '0 @F' + fam.uid + '@ FAM\n';
+        var pIndex = 0;
+        if (
+          fam.parents.length === 2 &&
+          fam.parents[0].sex === fam.parents[1].sex
+        ) {
+          // some software does not accept same-sex marriages, and so
+          // grudgingly we will call the first spouse the husband and the
+          // second the wife in these case (lame)
+          var parent = fam.parents[0];
+          s.s += '1 ' + 'HUSB' +
+              ' @I' + parent.uid + '@\n';
+          parent = fam.parents[1];
+          s.s += '1 ' + 'WIFE' +
+              ' @I' + parent.uid + '@\n';
+        }
+        else {
+          fam.parents.forEach(function (parent) {
+            s.s += '1 ' + (parent.sex === 'M' ? 'HUSB' : 'WIFE') +
+                ' @I' + parent.uid + '@\n';
+          });
+        }
+
+        if (fam.children) {
+          // we can kind sort assume that the test for children
+          // is superfluous, but who knows?
+          fam.children.forEach(function (child) {
+            s.s += '1 CHIL @I' + child.uid + '@\n';
+          });
+        }
+
+      });
 
       s.s += '0 TRLR\n';
 

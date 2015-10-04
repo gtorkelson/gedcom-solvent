@@ -116,6 +116,13 @@ gedmatchSolvent.solve = function () {
             }
           }
           if (fontNode) {
+            // parent is the <a> tag
+            var parentEl = fontNode.parentElement;
+            var personUrl = parentEl.getAttribute('href');
+            var urlMatch = /=(\d*)&id_ged=(.*)$/.exec(personUrl);
+            // we actually don't need the first part, and in fact it
+            // makes family ids too long
+            line.uid = urlMatch[2];
             line.text += fontNode.textContent.trim();
             var color = fontNode.color;
             line.textBeginsAt = line.special.length + 1;
@@ -145,7 +152,8 @@ gedmatchSolvent.solve = function () {
         text: line.text.length ? line.text : undefined,
         sex: line.sex,
         isProband: line.isProband,
-        textBeginsAt: line.textBeginsAt
+        textBeginsAt: line.textBeginsAt,
+        uid: line.uid
       };
       if (line.isProband) {
         probandLineIndex = i;
@@ -262,9 +270,10 @@ gedmatchSolvent.solve = function () {
       return name;
     };
 
-    var makePerson = function (text, sex) {
+    var makePerson = function (text, sex, url) {
       var person = Person.create();
       person.sex = sex;
+      person.uid = url;
 
       var name;
 
@@ -311,7 +320,9 @@ gedmatchSolvent.solve = function () {
 
     var solvePerson = function (lines, personIndex) {
       var personLine = lines[personIndex];
-      var person = makePerson(personLine.text, personLine.sex);
+      var person = makePerson(
+        personLine.text, personLine.sex, personLine.uid
+      );
       person.aid = personIndex;
 
       var fatherIndex = findFather(lines, personIndex);
