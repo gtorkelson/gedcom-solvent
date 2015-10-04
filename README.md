@@ -23,8 +23,10 @@ From there you're on your own, but you would probably want to load the GEDCOM in
 
 Install the appropriate build for your browser from the output directory.
 
-* Chrome: download the [output/gedcomsolvent_0.9.0.crx](https://github.com/gtorkelson/gedcom-solvent/blob/master/output/gedcomsolvent_0.9.0.crx) file, visit the local URL "chrome://extensions" in Chrome, and drag the crx file into that window. If Chrome prevents you from installing extensions not installed from the Web Store, see [this helpful page](http://lifehacker.com/install-chrome-extensions-from-outside-the-store-with-d-1596918011).
-* Firefox: download the [output/gedcomsolvent_0.9.0.xpi](https://github.com/gtorkelson/gedcom-solvent/blob/master/output/gedcomsolvent_0.9.0.xpi) file, visit the local URL "about:addons" in Firefox, and drag the xpi file into that window.
+* Chrome: download the [gedcomsolvent_0.9.0.crx](https://github.com/gtorkelson/gedcom-solvent/releases/download/v0.9.0/gedcomsolvent_0.9.0.crx) file, visit the local URL "chrome://extensions" in Chrome, and drag the crx file into that window. If Chrome prevents you from installing extensions not installed from the Web Store, see [this helpful page](http://lifehacker.com/install-chrome-extensions-from-outside-the-store-with-d-1596918011).
+* Firefox: download the [gedcomsolvent_0.9.0.xpi](https://github.com/gtorkelson/gedcom-solvent/releases/download/v0.9.0/gedcomsolvent_0.9.0.xpi) file, visit the local URL "about:addons" in Firefox, and drag the xpi file into that window.
+
+**_In some cases, your browser may initiate the install process automatically when you download the file... you will have the opportunity to confirm or cancel if this happens._**
 
 Thereafter, on a supported site/page, the extension will present itself as an orange button. If less than 15 generations are displayed, the extension will cause them to be displayed, and then initiate the download.
 
