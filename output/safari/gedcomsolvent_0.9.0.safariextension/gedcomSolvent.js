@@ -8,7 +8,7 @@ GedcomSolvent = Object.create(
     },
     downloadGedcom: function (isPreparing) {
       var self = this;
-      var prepare = isPreparing ? Promise.resolve(true) : this.prepare();
+      var prepare = isPreparing ? P.resolve(true) : this.prepare();
       return prepare
       .then(function (prepared) {
         self.preparing = false;
@@ -24,7 +24,7 @@ GedcomSolvent = Object.create(
     },
     prepare: function () {
       // this.preparing = true;
-      return Promise.resolve();
+      return P.resolve();
     },
     onPrepared: function () {
       // this.preparing = true;
@@ -32,12 +32,12 @@ GedcomSolvent = Object.create(
       .then(this.download);
     },
     solve: function () {
-      return Promise.resolve();
+      return P.resolve();
     },
     download: function (proband) {
       var gc = Gedcom.create(proband, this.source);
       gc.download();
-      return Promise.resolve();
+      return P.resolve();
     },
     prepareButtonParent: function () {
       // return a jq element that is ready to contain the solvent button]

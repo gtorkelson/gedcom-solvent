@@ -21,7 +21,7 @@ ftdnaSolvent.prepare = function () {
   var self = this;
   self.preparing = true;
 
-  return Promise.bind(this)
+  return P.bind(this)
   .then(this.ensureAncestryView)
   .then(this.ensureAllGenerations)
   .then(function (isPrepared) {
@@ -42,7 +42,7 @@ ftdnaSolvent.waitSpinnerRoundTrip = function () {
   // this is all about
   // <div id="loading-overlay" style="display: none;"></div>
   var spinner = $('#loading-overlay');
-  return new Promise(function (res, rej) {
+  return new P(function (res, rej) {
     spinnerDone = res;
     var interval = setInterval(function () {
       if (spinner.css('display') === 'none') {
@@ -65,7 +65,7 @@ ftdnaSolvent.ensureAncestryView = function () {
     return p;
   }
   else {
-    return Promise.resolve();
+    return P.resolve();
   }
 };
 
@@ -89,7 +89,7 @@ ftdnaSolvent.ensureAllGenerations = function () {
     });
   }
   else {
-    return Promise.resolve(true);
+    return P.resolve(true);
   }
 };
 
@@ -123,6 +123,7 @@ ftdnaSolvent.solve = function () {
       person.sex = memberElement.hasClass('male') ? 'M' : 'F';
       person.firstMiddle = detailChildren.eq(0).text().trim();
       person.last = detailChildren.eq(1).text().trim();
+
       var b0 = detailChildren.eq(2);
       if (b0.length) {
         var b = b0[0].childNodes[1];
@@ -206,7 +207,7 @@ ftdnaSolvent.solve = function () {
 
   setParents(probandPerson);
 
-  return Promise.resolve(probandPerson);
+  return P.resolve(probandPerson);
 };
 
 $(function () {

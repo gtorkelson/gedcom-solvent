@@ -24,7 +24,7 @@ gedmatchSolvent.prepare = function () {
   var self = this;
   self.preparing = true;
 
-  return Promise.bind(this)
+  return P.bind(this)
   .then(this.ensure15Generations)
   // this code won't be hit if we needed to switch generations
   .then(function (isPrepared) {
@@ -51,10 +51,10 @@ gedmatchSolvent.ensure15Generations = function () {
     $('form[method="get"]').submit();
     // after which we will lose the rest of this code b/c
     // the page will reload
-    return Promise.resolve(false);
+    return P.resolve(false);
   }
   else {
-    return Promise.resolve(true);
+    return P.resolve(true);
   }
 
 };
@@ -346,7 +346,7 @@ gedmatchSolvent.solve = function () {
 
   var prob = parseLines();
 
-  return Promise.resolve(prob);
+  return P.resolve(prob);
 };
 
 $(function () {
