@@ -171,7 +171,7 @@ ftdnaSolvent.solve = function () {
       }
     });
   });
-  var probandMember = $('.tree-owner');
+  var probandMember = $('.member.tree-owner');
   var probandPerson = personFromMember(probandMember);
   probandPerson.aid = 1;
 

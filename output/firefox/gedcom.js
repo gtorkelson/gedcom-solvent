@@ -132,10 +132,27 @@ var Gedcom = Object.create(
         });
         if (person.parents.length) {
           s.s += '0 @F' + person.aid + '@ FAM\n';
-          person.parents.forEach(function (parent) {
-            s.s += '1 ' + (parent.sex === 'M' ? 'HUSB' : 'WIFE') +
+          var pIndex = 0;
+          if (
+            person.parents.length === 2 &&
+            person.parents[0].sex === person.parents[1].sex
+          ) {
+            // some software does not accept same-sex marriages, and so
+            // grudgingly we will call the first spouse the husband and the
+            // second the wife in these case (lame)
+            var parent = person.parents[0];
+            s.s += '1 ' + 'HUSB' +
                 ' @I' + parent.aid + '@\n';
-          });
+            parent = person.parents[1];
+            s.s += '1 ' + 'WIFE' +
+                ' @I' + parent.aid + '@\n';
+          }
+          else {
+            person.parents.forEach(function (parent) {
+              s.s += '1 ' + (parent.sex === 'M' ? 'HUSB' : 'WIFE') +
+                  ' @I' + parent.aid + '@\n';
+            });
+          }
           s.s += '1 CHIL @I' + person.aid + '@\n';
         }
       };

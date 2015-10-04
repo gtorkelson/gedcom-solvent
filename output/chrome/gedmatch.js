@@ -68,7 +68,6 @@ Object.defineProperty(gedmatchSolvent, 'sourceId', {
 });
 
 gedmatchSolvent.solve = function () {
-  console.log('solve');
 
   var parseLines = function () {
     var probandLineIndex;
