@@ -1,8 +1,6 @@
 // ==UserScript==
 // @name Gedcom Solvent (Gedmatch)
-// @include http://v2.gedmatch.com/pedigree_text.php\?id_family=*
-// @include http://gedmatch.com/pedigree_text.php\?id_family=*
-// @include http://localhost:8080/index.html
+// @include http://v2.gedmatch.com/pedigree_text.php*
 // @require jquery-2.1.4.min.js
 // @require bluebird.min.js
 // @require gedcom.js
