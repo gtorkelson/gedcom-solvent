@@ -15,9 +15,12 @@ As currently built, it can be used in recent versions of **Chrome** and **Firefo
 The extension presents a single orange button, "Download Gedcom", on a supported page. When that button is clicked:
 
 * The extension ensures that you have at least 15 generations set for display.
-* It then gathers the data (as best it can!) and presents the GEDCOM file as a download. If your browser is set to present a window on download, it will, otherwise it may be stored automatically in your downloads directory.
+* It then gathers the data (as best it can!).
+* It builds family structures and presents the GEDCOM file as a download. If your browser is set to present a window on download, it will, otherwise it may be stored automatically in your downloads directory.
 
 From there you're on your own, but you would probably want to load the GEDCOM into your research tool(s) -- some tools support finding duplicates in GEDCOMs, which can be a great way to find common ancestors. Of course, you can also just build a big GEDCOM from the trees of DNA matches and look for them the "old fashioned" way. The one thing you are not allowed to do by license is publish the data (in any form) which you derive from your use of the extension.
+
+A note on *pedigree collapse and duplicates*: as of v0.9.1, the extension will not create duplicates in cases of pedigree collapse, but it can only do this if the source of the information (ther person who created the family tree and the software they used) properly handled the families. Gedcom Solvent doesn't do any "deduping," but it will honor a family as having multiple children (rather than creating separate couples for each child who appears in the tree) if the source of the data make that possible.
 
 ## Installation/Usage
 
