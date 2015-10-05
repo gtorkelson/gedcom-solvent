@@ -20,14 +20,14 @@ The extension presents a single orange button, "Download Gedcom", on a supported
 
 From there you're on your own, but you would probably want to load the GEDCOM into your research tool(s) -- some tools support finding duplicates in GEDCOMs, which can be a great way to find common ancestors. Of course, you can also just build a big GEDCOM from the trees of DNA matches and look for them the "old fashioned" way. The one thing you are not allowed to do by license is publish the data (in any form) which you derive from your use of the extension.
 
-A note on *pedigree collapse and duplicates*: as of v0.9.1, the extension will not create duplicates in cases of pedigree collapse, but it can only do this if the source of the information (ther person who created the family tree and the software they used) properly handled the families. Gedcom Solvent doesn't do any "deduping," but it will honor a family as having multiple children (rather than creating separate couples for each child who appears in the tree) if the source of the data make that possible.
+A note on *pedigree collapse and duplicates*: the extension will not create duplicates in cases of pedigree collapse, but it can only avoid duplicates if the source of the information (ther person who created the family tree and the software they used) properly handled the families. Gedcom Solvent doesn't do any "deduping," but it will honor a family as having multiple children (rather than creating separate couples for each child who appears in the tree) if the source of the data make that possible.
 
 ## Installation/Usage
 
 Install the appropriate build for your browser from the output directory.
 
-* Chrome: download the [gedcomsolvent_0.9.1.crx](https://github.com/gtorkelson/gedcom-solvent/releases/download/v0.9.1/gedcomsolvent_0.9.1.crx) file, visit the local URL "chrome://extensions" in Chrome, and drag the crx file into that window. If Chrome prevents you from installing extensions not installed from the Web Store, see [this helpful page](http://lifehacker.com/install-chrome-extensions-from-outside-the-store-with-d-1596918011).
-* Firefox: download the [gedcomsolvent_0.9.1.xpi](https://github.com/gtorkelson/gedcom-solvent/releases/download/v0.9.1/gedcomsolvent_0.9.1.xpi) file, visit the local URL "about:addons" in Firefox, and drag the xpi file into that window.
+* Chrome: download the [gedcomsolvent_0.9.2.crx](https://github.com/gtorkelson/gedcom-solvent/releases/download/v0.9.2/gedcomsolvent_0.9.2.crx) file, visit the local URL "chrome://extensions" in Chrome, and drag the crx file into that window. If Chrome prevents you from installing extensions not installed from the Web Store, see [this helpful page](http://lifehacker.com/install-chrome-extensions-from-outside-the-store-with-d-1596918011).
+* Firefox: download the [gedcomsolvent_0.9.2.xpi](https://github.com/gtorkelson/gedcom-solvent/releases/download/v0.9.2/gedcomsolvent_0.9.2.xpi) file, visit the local URL "about:addons" in Firefox, and drag the xpi file into that window.
 
 **_In some cases, your browser may initiate the install process automatically when you download the file... you will have the opportunity to confirm or cancel if this happens._**
 
