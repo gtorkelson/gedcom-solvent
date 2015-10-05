@@ -129,12 +129,16 @@ ftdnaSolvent.solve = function () {
       var b0 = detailChildren.eq(2);
       if (b0.length) {
         var b = b0[0].childNodes[1];
-        person.birth = b ? eventParse(b.nodeValue.trim()) : null;
+        if (b && b.nodeValue) {
+          person.birth = b ? eventParse(b.nodeValue.trim()) : null;
+        }
       }
       var d0 = detailChildren.eq(3);
       if (d0.length) {
         var d = d0[0].childNodes[1];
-        person.death = d ? eventParse(d.nodeValue.trim()) : null;
+        if (d && d.nodeValue) {
+          person.death = d ? eventParse(d.nodeValue.trim()) : null;
+        }
       }
 
       // ugly fix for ftdna weirdeness
